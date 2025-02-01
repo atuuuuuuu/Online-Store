@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+    <link rel="icon" href="https://png.pngtree.com/png-vector/20190917/ourmid/pngtree-store-icon-in-line-style-png-image_1736161.jpg" type="image/x-icon">
+    <style>
+        /* Basic styles for the cart page */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f8fb;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes full height */
+        }
+
+        header {
+            background-color: #a36d6d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .cart-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center; /* Center text */
+            flex-grow: 1; /* Allow this section to grow and take available space */
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            text-align: center; /* Center the text */
+        }
+
+        .checkout-button {
+            display: block; /* Make the button a block element */
+            margin: 20px auto; /* Center the button */
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-button:hover {
+            background-color: #218838;
+        }
+
+        /* Ensure the footer is at the bottom */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Cart</h1>
+    </header>
+
+    <div class="cart-container" id="cart-items">
+        <!-- Cart items will be dynamically added here -->
+        <p>Your cart is currently empty.</p>
+    </div>
+
+    <div class="cart-total">
+        <strong>Total: $<span id="cart-total">0.00</span></strong>
+    </div>
+    <button id="checkout-button" class="checkout-button">Proceed to Checkout</button>
+
+    <footer>
+        <p>© 2025 Atu's Online Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || []; // Retrieve cart items from local storage
+
+        // Function to update the cart display
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = ''; // Clear existing items
+
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is currently empty.</p>';
+                document.getElementById('cart-total').innerText = '0.00';
+                return;
+            }
+
+            let total = 0;
+
+            cartItems.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong> - $${item.price.toFixed(2)}
+                        <button onclick="removeFromCart(${index})">Remove</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price; // Update total price
+            });
+
+            document.getElementById('cart-total').innerText = total.toFixed(2);
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(index) {
+            cartItems.splice(index, 1); // Remove item from array
+            localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Update local storage
+            updateCart(); // Update cart display
+        }
+
+        // Function to proceed to checkout
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            alert('Proceeding to checkout...');
+            // Here you can add your checkout logic
+        });
+
+        // Initial call to update the cart display
+        updateCart();
+    </script>
+</body>
+</html>
