@@ -1,0 +1,1 @@
+Hello everybody! This is my first coding project, a website store. I made this in two days with the help of blackbox.ai and deepseek, and this store is the most basic and least of a online store you can get. It has a shop, working cart, and a new arrivals page(Which isn't good) with home which is nothing worth thna a renamed cart.html 
